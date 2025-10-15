@@ -1,0 +1,348 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }} - Oladipupo Shalom David{% endblock %}
+
+{% block content %}
+<!-- Project Detail Hero -->
+<section class="project-detail-hero">
+    <div class="container">
+        <div class="project-detail-content" data-aos="fade-up">
+            <div class="breadcrumb">
+                <a href="{% url 'projects' %}">Projects</a>
+                <span>/</span>
+                <span>{{ project.title }}</span>
+            </div>
+            
+            <h1 class="project-title">{{ project.title }}</h1>
+            <p class="project-subtitle">{{ project.description }}</p>
+            
+            <div class="project-meta">
+                <div class="project-date">
+                    <i class="fas fa-calendar"></i>
+                    <span>{{ project.created_at|date:"F Y" }}</span>
+                </div>
+                <div class="project-links">
+                    {% if project.github_url %}
+                    <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="btn btn-outline">
+                        <i class="fab fa-github"></i>
+                        View Code
+                    </a>
+                    {% endif %}
+                    {% if project.live_url %}
+                    <a href="{{ project.live_url }}" target="_blank" rel="noopener" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt"></i>
+                        Live Demo
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Hero Media -->
+{% if project.image %}
+<section class="project-image-section">
+    <div class="container">
+        <div class="project-image-container" data-aos="fade-up">
+            <!-- Debug: File URL is {{ project.image.url }} -->
+            {% with project.image.url|lower as file_url %}
+                <!-- Debug: Lowercase URL is {{ file_url }} -->
+                {% if ".mp4" in file_url or ".webm" in file_url or ".ogg" in file_url or ".mov" in file_url %}
+                <!-- Debug: Detected video file -->
+                <div class="project-hero-video">
+                    <video class="project-main-video" autoplay muted loop playsinline controls>
+                        <source src="{{ project.image.url }}" type="video/mp4">
+                        <source src="{{ project.image.url }}" type="video/webm">
+                        <source src="{{ project.image.url }}" type="video/ogg">
+                        <source src="{{ project.image.url }}" type="video/quicktime">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                {% else %}
+                <!-- Debug: Detected image file -->
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-main-image">
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Project Media Gallery -->
+{% if project.media.all %}
+<section class="project-gallery-section">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">Project Gallery</h2>
+            <p class="section-subtitle">Screenshots, demos, and visual content</p>
+        </div>
+        
+        <!-- Images Gallery -->
+        {% with project.media.all as all_media %}
+        {% with all_media|dictsort:"media_type" as sorted_media %}
+        {% regroup sorted_media by media_type as media_groups %}
+        
+        {% for group in media_groups %}
+            {% if group.grouper == 'image' %}
+            <div class="gallery-section">
+                <h3 class="gallery-subtitle">Screenshots & Images</h3>
+                <div class="media-gallery images-only" data-aos="fade-up">
+                    {% for media in group.list %}
+                    <div class="media-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                        <div class="media-image">
+                            <img src="{{ media.file.url }}" alt="{{ media.title|default:project.title }}" class="gallery-image">
+                            <div class="media-overlay">
+                                <button class="media-expand-btn" onclick="openMediaModal('{{ media.file.url }}', '{{ media.title|default:project.title }}', 'image')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="media-content">
+                            {% if media.title %}
+                            <h4 class="media-title">{{ media.title }}</h4>
+                            {% endif %}
+                            {% if media.description %}
+                            <p class="media-description">{{ media.description }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if group.grouper == 'video' %}
+            <div class="gallery-section">
+                <h3 class="gallery-subtitle">Videos & Demos</h3>
+                <div class="media-gallery videos-only" data-aos="fade-up">
+                    {% for media in group.list %}
+                    <div class="media-item video-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                        <div class="media-video" onclick="openMediaModal('{{ media.file.url }}', '{{ media.title|default:project.title }}', 'video')">
+                            <video class="gallery-video" preload="metadata" poster="">
+                                <source src="{{ media.file.url }}" type="video/mp4">
+                                <source src="{{ media.file.url }}" type="video/webm">
+                                <source src="{{ media.file.url }}" type="video/ogg">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="video-play-overlay">
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-content">
+                            {% if media.title %}
+                            <h4 class="video-title">{{ media.title }}</h4>
+                            {% endif %}
+                            {% if media.description %}
+                            <p class="video-description">{{ media.description }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        {% endwith %}
+        {% endwith %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Project Details -->
+<section class="project-details">
+    <div class="container">
+        <div class="project-details-grid">
+            <div class="project-description" data-aos="fade-up">
+                <h2>About This Project</h2>
+                <div class="description-content">
+                    {{ project.long_description|linebreaks }}
+                </div>
+            </div>
+            
+            <div class="project-info" data-aos="fade-up" data-aos-delay="200">
+                <h3>Project Information</h3>
+                
+                <div class="info-section">
+                    <h4>Technologies Used</h4>
+                    <div class="tech-list">
+                        {% for tech in project.get_technologies_list %}
+                        <span class="tech-tag">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <h4>Project Links</h4>
+                    <div class="project-links-list">
+                        {% if project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="project-link-item">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub Repository</span>
+                        </a>
+                        {% endif %}
+                        {% if project.live_url %}
+                        <a href="{{ project.live_url }}" target="_blank" rel="noopener" class="project-link-item">
+                            <i class="fas fa-external-link-alt"></i>
+                            <span>Live Demo</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <h4>Project Timeline</h4>
+                    <div class="timeline-info">
+                        <div class="timeline-item">
+                            <span class="timeline-label">Started</span>
+                            <span class="timeline-value">{{ project.created_at|date:"F Y" }}</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-label">Last Updated</span>
+                            <span class="timeline-value">{{ project.updated_at|date:"F Y" }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Projects -->
+{% if related_projects %}
+<section class="related-projects">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">Related Projects</h2>
+            <p class="section-subtitle">Other projects you might be interested in</p>
+        </div>
+        
+        <div class="projects-grid">
+            {% for related_project in related_projects %}
+            <div class="project-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                {% if related_project.image %}
+                <div class="project-image">
+                    <img src="{{ related_project.image.url }}" alt="{{ related_project.title }}">
+                    <div class="project-overlay">
+                        <a href="{% url 'project_detail' related_project.id %}" class="project-link">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        {% if related_project.github_url %}
+                        <a href="{{ related_project.github_url }}" target="_blank" rel="noopener" class="project-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        {% endif %}
+                        {% if related_project.live_url %}
+                        <a href="{{ related_project.live_url }}" target="_blank" rel="noopener" class="project-link">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                <div class="project-content">
+                    {% if related_project.featured %}
+                    <div class="project-badge">Featured</div>
+                    {% endif %}
+                    <h3 class="project-title">{{ related_project.title }}</h3>
+                    <p class="project-description">{{ related_project.description|truncatewords:15 }}</p>
+                    <div class="project-tech">
+                        {% for tech in related_project.get_technologies_list %}
+                        <span class="tech-tag">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="project-actions">
+                        <a href="{% url 'project_detail' related_project.id %}" class="btn btn-outline">View Details</a>
+                        {% if related_project.live_url %}
+                        <a href="{{ related_project.live_url }}" target="_blank" rel="noopener" class="btn btn-primary">Live Demo</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content" data-aos="fade-up">
+            <h2>Like What You See?</h2>
+            <p>Let's discuss how we can work together on your next project.</p>
+            <a href="{% url 'contact' %}" class="btn btn-primary">Get In Touch</a>
+        </div>
+    </div>
+</section>
+
+<!-- Media Modal -->
+<div id="mediaModal" class="media-modal">
+    <div class="media-modal-content">
+        <span class="media-modal-close" onclick="closeMediaModal()">&times;</span>
+        <img id="modalImage" class="media-modal-image" style="display: none;">
+        <video id="modalVideo" class="media-modal-image" style="display: none;" controls>
+            Your browser does not support the video tag.
+        </video>
+        <h3 id="modalTitle" class="media-modal-title"></h3>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function openMediaModal(fileUrl, title, type) {
+    const modal = document.getElementById('mediaModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalVideo = document.getElementById('modalVideo');
+    const modalTitle = document.getElementById('modalTitle');
+    
+    modalTitle.textContent = title;
+    
+    if (type === 'image') {
+        modalImage.src = fileUrl;
+        modalImage.style.display = 'block';
+        modalVideo.style.display = 'none';
+    } else if (type === 'video') {
+        modalVideo.src = fileUrl;
+        modalVideo.style.display = 'block';
+        modalImage.style.display = 'none';
+    }
+    
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMediaModal() {
+    const modal = document.getElementById('mediaModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalVideo = document.getElementById('modalVideo');
+    
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    
+    // Pause video when closing modal
+    if (modalVideo.style.display !== 'none') {
+        modalVideo.pause();
+    }
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    const modal = document.getElementById('mediaModal');
+    if (event.target === modal) {
+        closeMediaModal();
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeMediaModal();
+    }
+});
+</script>
+{% endblock %}

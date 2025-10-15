@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About - Oladipupo Shalom David{% endblock %}
+
+{% block content %}
+<!-- About Hero Section -->
+<section class="about-hero">
+    <div class="container">
+        <div class="about-hero-content" data-aos="fade-up">
+            <div class="about-text">
+                <h1 class="page-title">About Me</h1>
+                <p class="page-subtitle">Get to know me better</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Content Section -->
+<section class="about-content">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-image" data-aos="fade-right">
+                {% if profile.profile_image %}
+                    <img src="{{ profile.profile_image.url }}" alt="{{ profile.name }}" class="about-img">
+                {% else %}
+                    <div class="about-placeholder">
+                        <i class="fas fa-user"></i>
+                        <p>Add your photo</p>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="about-text-content" data-aos="fade-left">
+                <h2>Hello, I'm {{ profile.name|default:"Oladipupo Shalom David" }}</h2>
+                <h3>{{ profile.title|default:"Software Developer & Engineer" }}</h3>
+                
+                <div class="about-description">
+                    <p>{{ profile.bio|default:"I am a passionate software developer with a strong foundation in computer science and a love for creating innovative solutions. My journey in technology began with curiosity and has evolved into a career focused on building scalable, efficient, and user-friendly applications." }}</p>
+                    
+                    <p>I specialize in full-stack development, with expertise in modern web technologies, cloud platforms, and agile development methodologies. My goal is to leverage technology to solve real-world problems and create meaningful impact.</p>
+                </div>
+                
+                <div class="about-info">
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>{{ profile.email|default:"your.email@example.com" }}</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>{{ profile.location|default:"Your Location" }}</span>
+                    </div>
+                    {% if profile.phone %}
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <span>{{ profile.phone }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="about-buttons">
+                    <a href="{% url 'contact' %}" class="btn btn-primary">Contact Me</a>
+                    {% if profile.resume %}
+                    <a href="{{ profile.resume.url }}" target="_blank" class="btn btn-secondary">Download Resume</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section class="detailed-skills">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">Technical Skills</h2>
+            <p class="section-subtitle">Technologies and tools I work with</p>
+        </div>
+        
+        <div class="skills-categories">
+            {% regroup profile.skills.all by category as skill_groups %}
+            {% for group in skill_groups %}
+            <div class="skill-category" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <h3 class="category-title">{{ group.grouper|title }}</h3>
+                <div class="skills-list">
+                    {% for skill in group.list %}
+                    <div class="skill-item-detailed">
+                        <div class="skill-name">{{ skill.name }}</div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: {{ skill.proficiency }}0%"></div>
+                        </div>
+                        <div class="skill-level">{{ skill.proficiency }}/10</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-skills" data-aos="fade-up">
+                <p>Skills will be displayed here once added through the admin panel.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Experience Section -->
+<section class="detailed-experience">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">Professional Experience</h2>
+            <p class="section-subtitle">My career journey and achievements</p>
+        </div>
+        
+        <div class="experience-timeline">
+            {% for experience in experiences %}
+            <div class="experience-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <div class="experience-period">
+                    <span class="start-date">{{ experience.start_date|date:"M Y" }}</span>
+                    <span class="end-date">
+                        {% if experience.current %}Present{% else %}{{ experience.end_date|date:"M Y" }}{% endif %}
+                    </span>
+                </div>
+                <div class="experience-content">
+                    <h3 class="experience-position">{{ experience.position }}</h3>
+                    <h4 class="experience-company">{{ experience.company }}</h4>
+                    <p class="experience-location">{{ experience.location }}</p>
+                    <div class="experience-description">
+                        {{ experience.description|linebreaks }}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-experience" data-aos="fade-up">
+                <p>Experience will be displayed here once added through the admin panel.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Education Section -->
+<section class="education-section">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">Education</h2>
+            <p class="section-subtitle">My academic background</p>
+        </div>
+        
+        <div class="education-grid">
+            {% for education in educations %}
+            <div class="education-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <div class="education-header">
+                    <h3 class="education-degree">{{ education.degree }}</h3>
+                    <h4 class="education-institution">{{ education.institution }}</h4>
+                    <p class="education-field">{{ education.field_of_study }}</p>
+                </div>
+                <div class="education-details">
+                    <div class="education-period">
+                        <i class="fas fa-calendar"></i>
+                        <span>{{ education.start_date|date:"Y" }} - {% if education.end_date %}{{ education.end_date|date:"Y" }}{% else %}Present{% endif %}</span>
+                    </div>
+                    {% if education.gpa %}
+                    <div class="education-gpa">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>GPA: {{ education.gpa }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% if education.description %}
+                <div class="education-description">
+                    {{ education.description|linebreaks }}
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="no-education" data-aos="fade-up">
+                <p>Education will be displayed here once added through the admin panel.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="values-section">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">My Values</h2>
+            <p class="section-subtitle">What drives me in my work</p>
+        </div>
+        
+        <div class="values-grid">
+            <div class="value-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="value-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3>Innovation</h3>
+                <p>I believe in pushing boundaries and finding creative solutions to complex problems.</p>
+            </div>
+            
+            <div class="value-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="value-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Collaboration</h3>
+                <p>Great products are built by great teams. I value teamwork and open communication.</p>
+            </div>
+            
+            <div class="value-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="value-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3>Excellence</h3>
+                <p>I strive for excellence in everything I do, from code quality to user experience.</p>
+            </div>
+            
+            <div class="value-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="value-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3>Learning</h3>
+                <p>Technology evolves rapidly. I'm committed to continuous learning and growth.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

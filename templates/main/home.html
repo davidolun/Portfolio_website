@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Oladipupo Shalom David - Software Developer & Engineer{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="hero-container">
+        <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    Hi, I'm <span class="highlight">{{ profile.name|default:"Oladipupo Shalom David" }}</span>
+                </h1>
+                <h2 class="hero-subtitle">{{ profile.title|default:"Software Developer & Engineer" }}</h2>
+                <p class="hero-description">
+                    {{ profile.bio|default:"Passionate about creating innovative solutions and building scalable applications. I specialize in full-stack development with a focus on modern technologies and best practices." }}
+                </p>
+                <div class="hero-buttons">
+                    <a href="{% url 'projects' %}" class="btn btn-primary">View My Work</a>
+                    <a href="{% url 'contact' %}" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+            <div class="hero-image" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                {% if profile.profile_image %}
+                    <img src="{{ profile.profile_image.url }}" alt="{{ profile.name }}" class="profile-img" id="profileImage">
+                {% else %}
+                    <div class="profile-placeholder">
+                        <i class="fas fa-user"></i>
+                        <p>Add your photo</p>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <script>
+            // Clean up any remaining trail containers from previous effects
+            document.addEventListener('DOMContentLoaded', function() {
+                const trailContainer = document.getElementById('trailContainer');
+                if (trailContainer) {
+                    trailContainer.remove();
+                }
+            });
+            </script>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section class="skills-section" id="skills">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">Technical Skills</h2>
+            <p class="section-subtitle">Technologies and tools I work with</p>
+        </div>
+        
+        <div class="skills-grid">
+            {% for skill in profile.skills.all %}
+            <div class="skill-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <div class="skill-info">
+                    <h4>{{ skill.name }}</h4>
+                    <span class="skill-category">{{ skill.get_category_display }}</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-progress" style="width: {{ skill.proficiency }}0%"></div>
+                </div>
+                <span class="skill-percentage">{{ skill.proficiency }}/10</span>
+            </div>
+            {% empty %}
+            <div class="no-skills" data-aos="fade-up">
+                <p>Skills will be displayed here once added through the admin panel.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects Section -->
+<section class="projects-section" id="projects">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">Some of my recent work</p>
+        </div>
+        
+        <div class="projects-grid">
+            {% for project in projects %}
+            <div class="project-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                {% if project.image %}
+                <div class="project-image">
+                    {% with project.image.url|lower as file_url %}
+                        {% if ".mp4" in file_url or ".webm" in file_url or ".ogg" in file_url or ".mov" in file_url %}
+                        <div class="project-video">
+                            <video autoplay muted loop playsinline>
+                                <source src="{{ project.image.url }}" type="video/mp4">
+                                <source src="{{ project.image.url }}" type="video/webm">
+                                <source src="{{ project.image.url }}" type="video/ogg">
+                                <source src="{{ project.image.url }}" type="video/quicktime">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        {% else %}
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                        {% endif %}
+                    {% endwith %}
+                    <div class="project-overlay">
+                        <a href="{% url 'project_detail' project.id %}" class="project-link">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        {% if project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="project-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        {% endif %}
+                        {% if project.live_url %}
+                        <a href="{{ project.live_url }}" target="_blank" rel="noopener" class="project-link">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                <div class="project-content">
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <p class="project-description">{{ project.description|truncatewords:20 }}</p>
+                    <div class="project-tech">
+                        {% for tech in project.get_technologies_list %}
+                        <span class="tech-tag">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-projects" data-aos="fade-up">
+                <p>Projects will be displayed here once added through the admin panel.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="section-footer" data-aos="fade-up" data-aos-delay="300">
+            <a href="{% url 'projects' %}" class="btn btn-outline">View All Projects</a>
+        </div>
+    </div>
+</section>
+
+<!-- Experience Section -->
+<section class="experience-section" id="experience">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">Professional Experience</h2>
+            <p class="section-subtitle">My career journey</p>
+        </div>
+        
+        <div class="timeline">
+            {% for experience in experiences %}
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">{{ experience.position }}</h3>
+                    <h4 class="timeline-company">{{ experience.company }}</h4>
+                    <span class="timeline-date">
+                        {{ experience.start_date|date:"M Y" }} - 
+                        {% if experience.current %}Present{% else %}{{ experience.end_date|date:"M Y" }}{% endif %}
+                    </span>
+                    <p class="timeline-description">{{ experience.description }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-experience" data-aos="fade-up">
+                <p>Experience will be displayed here once added through the admin panel.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content" data-aos="fade-up">
+            <h2>Let's Work Together</h2>
+            <p>I'm always interested in new opportunities and exciting projects.</p>
+            <a href="{% url 'contact' %}" class="btn btn-primary">Get In Touch</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
