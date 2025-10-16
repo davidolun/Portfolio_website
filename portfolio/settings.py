@@ -4,6 +4,7 @@ Django settings for portfolio project.
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,6 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
+    # 'cloudinary_storage', # Temporarily disabled
+    # 'cloudinary', # Temporarily disabled
     'main',
 ]
 
@@ -112,10 +115,16 @@ if not DEBUG:
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Cloudinary Configuration
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', default=''),
+    'API_KEY': config('CLOUDINARY_API_KEY', default=''),
+    'API_SECRET': config('CLOUDINARY_API_SECRET', default=''),
+}
+
 # Production media files handling
 if not DEBUG:
-    # For production, we'll serve media files through Django
-    # In a real production setup, you'd use AWS S3, Cloudinary, etc.
+    # Temporarily using local storage
     pass
 
 # Default primary key field type
