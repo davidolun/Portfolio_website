@@ -102,6 +102,11 @@ if not DEBUG:
     WHITENOISE_USE_FINDERS = True
     WHITENOISE_AUTOREFRESH = True
     WHITENOISE_MANIFEST_STRICT = False
+    # Force static files to be served
+    STATICFILES_FINDERS = [
+        'django.contrib.staticfiles.finders.FileSystemFinder',
+        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    ]
 
 # Media files
 MEDIA_URL = '/media/'
