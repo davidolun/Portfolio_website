@@ -97,7 +97,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Production static files handling
 if not DEBUG:
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+    # WhiteNoise settings
+    WHITENOISE_USE_FINDERS = True
+    WHITENOISE_AUTOREFRESH = True
 
 # Media files
 MEDIA_URL = '/media/'
