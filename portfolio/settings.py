@@ -112,5 +112,11 @@ if not DEBUG:
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Production media files handling
+if not DEBUG:
+    # For production, we'll serve media files through Django
+    # In a real production setup, you'd use AWS S3, Cloudinary, etc.
+    pass
+
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
