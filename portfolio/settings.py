@@ -10,7 +10,7 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-your-secret-key-here-change-in-production'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-your-secret-key-here-change-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
@@ -62,15 +62,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 # Database
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'portfoliodb_9v3e',
-        'USER': 'portfoliodb_9v3e_user',
-        'PASSWORD': 'B4LVdIpLPlTPsDcvHu5qaNsOoVVYpSUg',
-        'HOST': 'dpg-d3on8fmmcj7s739e8oj0-a.oregon-postgres.render.com',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL', 'postgresql://portfoliodb_9v3e_user:B4LVdIpLPlTPsDcvHu5qaNsOoVVYpSUg@dpg-d3on8fmmcj7s739e8oj0-a.oregon-postgres.render.com/portfoliodb_9v3e'))
 }
 
 # Password validation
