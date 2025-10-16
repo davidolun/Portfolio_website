@@ -46,23 +46,23 @@
 <section class="project-image-section">
     <div class="container">
         <div class="project-image-container" data-aos="fade-up">
-            <!-- Debug: File URL is {{ project.image.url }} -->
-            {% with project.image.url|lower as file_url %}
+            <!-- Debug: File URL is {{ project.image }} -->
+            {% with project.image|lower as file_url %}
                 <!-- Debug: Lowercase URL is {{ file_url }} -->
                 {% if ".mp4" in file_url or ".webm" in file_url or ".ogg" in file_url or ".mov" in file_url %}
                 <!-- Debug: Detected video file -->
                 <div class="project-hero-video">
                     <video class="project-main-video" autoplay muted loop playsinline controls>
-                        <source src="{{ project.image.url }}" type="video/mp4">
-                        <source src="{{ project.image.url }}" type="video/webm">
-                        <source src="{{ project.image.url }}" type="video/ogg">
-                        <source src="{{ project.image.url }}" type="video/quicktime">
+                        <source src="{{ project.image }}" type="video/mp4">
+                        <source src="{{ project.image }}" type="video/webm">
+                        <source src="{{ project.image }}" type="video/ogg">
+                        <source src="{{ project.image }}" type="video/quicktime">
                         Your browser does not support the video tag.
                     </video>
                 </div>
                 {% else %}
                 <!-- Debug: Detected image file -->
-                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-main-image">
+                <img src="{{ project.image }}" alt="{{ project.title }}" class="project-main-image">
                 {% endif %}
             {% endwith %}
         </div>
@@ -92,9 +92,9 @@
                     {% for media in group.list %}
                     <div class="media-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
                         <div class="media-image">
-                            <img src="{{ media.file.url }}" alt="{{ media.title|default:project.title }}" class="gallery-image">
+                            <img src="{{ media.file }}" alt="{{ media.title|default:project.title }}" class="gallery-image">
                             <div class="media-overlay">
-                                <button class="media-expand-btn" onclick="openMediaModal('{{ media.file.url }}', '{{ media.title|default:project.title }}', 'image')">
+                                <button class="media-expand-btn" onclick="openMediaModal('{{ media.file }}', '{{ media.title|default:project.title }}', 'image')">
                                     <i class="fas fa-expand"></i>
                                 </button>
                             </div>
@@ -119,11 +119,11 @@
                 <div class="media-gallery videos-only" data-aos="fade-up">
                     {% for media in group.list %}
                     <div class="media-item video-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
-                        <div class="media-video" onclick="openMediaModal('{{ media.file.url }}', '{{ media.title|default:project.title }}', 'video')">
+                        <div class="media-video" onclick="openMediaModal('{{ media.file }}', '{{ media.title|default:project.title }}', 'video')">
                             <video class="gallery-video" preload="metadata" poster="">
-                                <source src="{{ media.file.url }}" type="video/mp4">
-                                <source src="{{ media.file.url }}" type="video/webm">
-                                <source src="{{ media.file.url }}" type="video/ogg">
+                                <source src="{{ media.file }}" type="video/mp4">
+                                <source src="{{ media.file }}" type="video/webm">
+                                <source src="{{ media.file }}" type="video/ogg">
                                 Your browser does not support the video tag.
                             </video>
                             <div class="video-play-overlay">
@@ -225,7 +225,7 @@
             <div class="project-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
                 {% if related_project.image %}
                 <div class="project-image">
-                    <img src="{{ related_project.image.url }}" alt="{{ related_project.title }}">
+                    <img src="{{ related_project.image }}" alt="{{ related_project.title }}">
                     <div class="project-overlay">
                         <a href="{% url 'project_detail' related_project.id %}" class="project-link">
                             <i class="fas fa-eye"></i>

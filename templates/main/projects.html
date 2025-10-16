@@ -28,19 +28,19 @@
             <div class="featured-project" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
                 {% if project.image %}
                 <div class="project-image">
-                    {% with project.image.url|lower as file_url %}
+                    {% with project.image|lower as file_url %}
                         {% if ".mp4" in file_url or ".webm" in file_url or ".ogg" in file_url or ".mov" in file_url %}
                         <div class="project-video">
                             <video autoplay muted loop playsinline>
-                                <source src="{{ project.image.url }}" type="video/mp4">
-                                <source src="{{ project.image.url }}" type="video/webm">
-                                <source src="{{ project.image.url }}" type="video/ogg">
-                                <source src="{{ project.image.url }}" type="video/quicktime">
+                                <source src="{{ project.image }}" type="video/mp4">
+                                <source src="{{ project.image }}" type="video/webm">
+                                <source src="{{ project.image }}" type="video/ogg">
+                                <source src="{{ project.image }}" type="video/quicktime">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
                         {% else %}
-                        <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                        <img src="{{ project.image }}" alt="{{ project.title }}">
                         {% endif %}
                     {% endwith %}
                     <div class="project-overlay">
@@ -97,19 +97,19 @@
             <div class="project-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
                 {% if project.image %}
                 <div class="project-image">
-                    {% with project.image.url|lower as file_url %}
+                    {% with project.image|lower as file_url %}
                         {% if ".mp4" in file_url or ".webm" in file_url or ".ogg" in file_url or ".mov" in file_url %}
                         <div class="project-video">
                             <video autoplay muted loop playsinline>
-                                <source src="{{ project.image.url }}" type="video/mp4">
-                                <source src="{{ project.image.url }}" type="video/webm">
-                                <source src="{{ project.image.url }}" type="video/ogg">
-                                <source src="{{ project.image.url }}" type="video/quicktime">
+                                <source src="{{ project.image }}" type="video/mp4">
+                                <source src="{{ project.image }}" type="video/webm">
+                                <source src="{{ project.image }}" type="video/ogg">
+                                <source src="{{ project.image }}" type="video/quicktime">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
                         {% else %}
-                        <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                        <img src="{{ project.image }}" alt="{{ project.title }}">
                         {% endif %}
                     {% endwith %}
                     <div class="project-overlay">
