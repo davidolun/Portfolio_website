@@ -64,9 +64,18 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 import dj_database_url
 
-DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL', 'postgresql://portfoliodb_9v3e_user:B4LVdIpLPlTPsDcvHu5qaNsOoVVYpSUg@dpg-d3on8fmmcj7s739e8oj0-a.oregon-postgres.render.com/portfoliodb_9v3e'))
-}
+# Use PostgreSQL if DATABASE_URL is set, otherwise use SQLite
+if os.environ.get('DATABASE_URL'):
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
