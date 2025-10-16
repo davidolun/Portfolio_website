@@ -96,6 +96,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Production static files handling
 if not DEBUG:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    # Add whitenoise for serving static files
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 # Media files
 MEDIA_URL = '/media/'
