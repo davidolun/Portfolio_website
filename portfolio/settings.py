@@ -101,6 +101,7 @@ if not DEBUG:
     # WhiteNoise settings
     WHITENOISE_USE_FINDERS = True
     WHITENOISE_AUTOREFRESH = True
+    WHITENOISE_MANIFEST_STRICT = False
 
 # Media files
 MEDIA_URL = '/media/'
