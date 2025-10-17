@@ -22,7 +22,7 @@
         <div class="about-grid">
             <div class="about-image" data-aos="fade-right">
                 {% if profile.profile_image %}
-                    <img src="{{ profile.profile_image.url }}" alt="{{ profile.name }}" class="about-img">
+                    <img src="{{ profile.profile_image }}" alt="{{ profile.name }}" class="about-img">
                 {% else %}
                     <div class="about-placeholder">
                         <i class="fas fa-user"></i>
