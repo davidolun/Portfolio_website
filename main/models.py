@@ -56,6 +56,7 @@ class Project(models.Model):
     live_url = models.URLField(blank=True)
     image = models.URLField(blank=True, null=True, help_text="Enter the URL of your project image or video")
     featured = models.BooleanField(default=False)
+    display_order = models.PositiveIntegerField(default=0, help_text="Order of display (lower numbers appear first)")
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -66,7 +67,7 @@ class Project(models.Model):
         return [tech.strip() for tech in self.technologies_used.split(',')]
 
     class Meta:
-        ordering = ['-featured', '-created_at']
+        ordering = ['display_order', '-featured', '-created_at']
 
 
 class ProjectMedia(models.Model):
