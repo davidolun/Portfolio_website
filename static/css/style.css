@@ -1643,6 +1643,14 @@ a:hover {
     box-shadow: var(--shadow-large);
 }
 
+.hero-buttons-mobile {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    margin: var(--spacing-lg) 0;
+    flex-wrap: wrap;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .hero-desktop {

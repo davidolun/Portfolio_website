@@ -54,13 +54,15 @@
                     {% endif %}
                 </div>
                 
-                <p class="hero-description">
-                    {{ profile.bio|default:"Passionate about creating innovative solutions and building scalable applications. I specialize in full-stack development with a focus on modern technologies and best practices." }}
-                </p>
-                <div class="hero-buttons">
+                <!-- Buttons appear directly under profile picture on mobile -->
+                <div class="hero-buttons-mobile">
                     <a href="{% url 'projects' %}" class="btn btn-primary">View My Work</a>
                     <a href="{% url 'contact' %}" class="btn btn-secondary">Get In Touch</a>
                 </div>
+                
+                <p class="hero-description">
+                    {{ profile.bio|default:"Passionate about creating innovative solutions and building scalable applications. I specialize in full-stack development with a focus on modern technologies and best practices." }}
+                </p>
             </div>
             
             <script>
