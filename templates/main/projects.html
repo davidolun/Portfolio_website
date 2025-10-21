@@ -19,7 +19,7 @@
 <section class="featured-projects">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
-            <h2 class="section-title">Featured Projects</h2>
+            <h2 class="section-title">Completed Projects</h2>
             <p class="section-subtitle">Highlighted work that represents my best efforts</p>
         </div>
         
@@ -61,7 +61,7 @@
                 </div>
                 {% endif %}
                 <div class="project-content">
-                    <div class="project-badge">Featured</div>
+                    <div class="project-badge">Completed</div>
                     <h3 class="project-title">{{ project.title }}</h3>
                     <p class="project-description">{{ project.description }}</p>
                     <div class="project-tech">
@@ -131,7 +131,7 @@
                 {% endif %}
                 <div class="project-content">
                     {% if project.featured %}
-                    <div class="project-badge">Featured</div>
+                    <div class="project-badge">Completed</div>
                     {% endif %}
                     <h3 class="project-title">{{ project.title }}</h3>
                     <p class="project-description">{{ project.description|truncatewords:20 }}</p>

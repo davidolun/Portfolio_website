@@ -10,7 +10,7 @@
         <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
             <div class="hero-text">
                 <h1 class="hero-title">
-                    Hi, I'm <span class="highlight">{{ profile.name|default:"Oladipupo Shalom David" }}</span>
+                    Hi, I'm <span class="highlight">{{ profile.name|default:"Oladipupo  David" }}</span>
                 </h1>
                 <h2 class="hero-subtitle">{{ profile.title|default:"Software Developer & Engineer" }}</h2>
                 <p class="hero-description">
@@ -78,55 +78,59 @@
 <section class="projects-section" id="projects">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
-            <h2 class="section-title">Featured Projects</h2>
+            <h2 class="section-title">Completed Projects</h2>
             <p class="section-subtitle">Some of my recent work</p>
         </div>
         
         <div class="projects-grid">
             {% for project in projects %}
-            <div class="project-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
-                {% if project.image %}
-                <div class="project-image">
-                    {% with project.image|lower as file_url %}
-                        {% if ".mp4" in file_url or ".webm" in file_url or ".ogg" in file_url or ".mov" in file_url %}
-                        <div class="project-video">
-                            <video autoplay muted loop playsinline>
-                                <source src="{{ project.image }}" type="video/mp4">
-                                <source src="{{ project.image }}" type="video/webm">
-                                <source src="{{ project.image }}" type="video/ogg">
-                                <source src="{{ project.image }}" type="video/quicktime">
-                                Your browser does not support the video tag.
-                            </video>
+            <div class="project-card-wrapper" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <a href="{% url 'project_detail' project.id %}" class="project-card">
+                    {% if project.image %}
+                    <div class="project-image">
+                        {% with project.image|lower as file_url %}
+                            {% if ".mp4" in file_url or ".webm" in file_url or ".ogg" in file_url or ".mov" in file_url %}
+                            <div class="project-video">
+                                <video autoplay muted loop playsinline>
+                                    <source src="{{ project.image }}" type="video/mp4">
+                                    <source src="{{ project.image }}" type="video/webm">
+                                    <source src="{{ project.image }}" type="video/ogg">
+                                    <source src="{{ project.image }}" type="video/quicktime">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            {% else %}
+                            <img src="{{ project.image }}" alt="{{ project.title }}">
+                            {% endif %}
+                        {% endwith %}
+                        <div class="project-overlay">
+                            <div class="project-link">
+                                <i class="fas fa-eye"></i>
+                            </div>
                         </div>
-                        {% else %}
-                        <img src="{{ project.image }}" alt="{{ project.title }}">
-                        {% endif %}
-                    {% endwith %}
-                    <div class="project-overlay">
-                        <a href="{% url 'project_detail' project.id %}" class="project-link">
-                            <i class="fas fa-eye"></i>
-                        </a>
-                        {% if project.github_url %}
-                        <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="project-link">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        {% endif %}
-                        {% if project.live_url %}
-                        <a href="{{ project.live_url }}" target="_blank" rel="noopener" class="project-link">
-                            <i class="fas fa-external-link-alt"></i>
-                        </a>
-                        {% endif %}
                     </div>
-                </div>
-                {% endif %}
-                <div class="project-content">
-                    <h3 class="project-title">{{ project.title }}</h3>
-                    <p class="project-description">{{ project.description|truncatewords:20 }}</p>
-                    <div class="project-tech">
-                        {% for tech in project.get_technologies_list %}
-                        <span class="tech-tag">{{ tech }}</span>
-                        {% endfor %}
+                    {% endif %}
+                    <div class="project-content">
+                        <h3 class="project-title">{{ project.title }}</h3>
+                        <p class="project-description">{{ project.description|truncatewords:20 }}</p>
+                        <div class="project-tech">
+                            {% for tech in project.get_technologies_list %}
+                            <span class="tech-tag">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
                     </div>
+                </a>
+                <div class="project-actions">
+                    {% if project.github_url %}
+                    <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    {% endif %}
+                    {% if project.live_url %}
+                    <a href="{{ project.live_url }}" target="_blank" rel="noopener" class="btn btn-sm btn-primary">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a>
+                    {% endif %}
                 </div>
             </div>
             {% empty %}
