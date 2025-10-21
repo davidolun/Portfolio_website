@@ -1616,6 +1616,50 @@ a:hover {
     opacity: 1;
 }
 
+/* Mobile Hero Layout */
+.hero-desktop {
+    display: contents;
+}
+
+.hero-mobile {
+    display: none;
+    flex-direction: column;
+    text-align: center;
+    gap: var(--spacing-lg);
+}
+
+.hero-image-mobile {
+    display: flex;
+    justify-content: center;
+    margin: var(--spacing-lg) 0;
+}
+
+.hero-image-mobile .profile-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary-color);
+    box-shadow: var(--shadow-large);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .hero-desktop {
+        display: none;
+    }
+    
+    .hero-mobile {
+        display: flex;
+    }
+    
+    .hero-content {
+        grid-template-columns: 1fr;
+        padding-left: 0;
+        text-align: center;
+    }
+}
+
 
 
 .media-info {

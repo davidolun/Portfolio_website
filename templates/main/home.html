@@ -8,11 +8,52 @@
 <section class="hero" id="home">
     <div class="hero-container">
         <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
-            <div class="hero-text">
+            <!-- Desktop Layout -->
+            <div class="hero-desktop">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Hi, I'm <span class="highlight">{{ profile.name|default:"Oladipupo  David" }}</span>
+                    </h1>
+                    <h2 class="hero-subtitle">{{ profile.title|default:"Software Developer & Engineer" }}</h2>
+                    <p class="hero-description">
+                        {{ profile.bio|default:"Passionate about creating innovative solutions and building scalable applications. I specialize in full-stack development with a focus on modern technologies and best practices." }}
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="{% url 'projects' %}" class="btn btn-primary">View My Work</a>
+                        <a href="{% url 'contact' %}" class="btn btn-secondary">Get In Touch</a>
+                    </div>
+                </div>
+                <div class="hero-image" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    {% if profile.profile_image %}
+                        <img src="{{ profile.profile_image }}" alt="{{ profile.name }}" class="profile-img" id="profileImage">
+                    {% else %}
+                        <div class="profile-placeholder">
+                            <i class="fas fa-user"></i>
+                            <p>Add your photo</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Mobile Layout -->
+            <div class="hero-mobile">
                 <h1 class="hero-title">
                     Hi, I'm <span class="highlight">{{ profile.name|default:"Oladipupo  David" }}</span>
                 </h1>
                 <h2 class="hero-subtitle">{{ profile.title|default:"Software Developer & Engineer" }}</h2>
+                
+                <!-- Profile image appears here on mobile -->
+                <div class="hero-image-mobile" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    {% if profile.profile_image %}
+                        <img src="{{ profile.profile_image }}" alt="{{ profile.name }}" class="profile-img" id="profileImageMobile">
+                    {% else %}
+                        <div class="profile-placeholder">
+                            <i class="fas fa-user"></i>
+                            <p>Add your photo</p>
+                        </div>
+                    {% endif %}
+                </div>
+                
                 <p class="hero-description">
                     {{ profile.bio|default:"Passionate about creating innovative solutions and building scalable applications. I specialize in full-stack development with a focus on modern technologies and best practices." }}
                 </p>
@@ -20,16 +61,6 @@
                     <a href="{% url 'projects' %}" class="btn btn-primary">View My Work</a>
                     <a href="{% url 'contact' %}" class="btn btn-secondary">Get In Touch</a>
                 </div>
-            </div>
-            <div class="hero-image" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
-                {% if profile.profile_image %}
-                    <img src="{{ profile.profile_image }}" alt="{{ profile.name }}" class="profile-img" id="profileImage">
-                {% else %}
-                    <div class="profile-placeholder">
-                        <i class="fas fa-user"></i>
-                        <p>Add your photo</p>
-                    </div>
-                {% endif %}
             </div>
             
             <script>
