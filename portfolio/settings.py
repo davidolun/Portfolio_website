@@ -14,7 +14,31 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-your-secret-key-here-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
-ALLOWED_HOSTS = ['*']  # Will be updated for production
+
+# CSRF settings for Render.com deployment
+CSRF_TRUSTED_ORIGINS = [
+    'https://main.onrender.com',
+    'https://*.onrender.com',
+]
+
+# CSRF cookie settings
+CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_USE_SESSIONS = True
+
+# Session settings
+SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+
+# Allow Render dynamic hostnames
+ALLOWED_HOSTS = [
+    'main.onrender.com',
+    '.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -27,7 +51,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     # 'cloudinary_storage', # Temporarily disabled
     # 'cloudinary', # Temporarily disabled
-    'main',
+    'main',  # Your main app
 ]
 
 MIDDLEWARE = [
