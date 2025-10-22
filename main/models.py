@@ -13,7 +13,7 @@ class Profile(models.Model):
     github_url = models.URLField(blank=True)
     website_url = models.URLField(blank=True)
     profile_image = models.URLField(blank=True, null=True, help_text="Enter the URL of your profile image")
-    resume = models.FileField(upload_to='resumes/', blank=True, null=True)
+    resume = models.URLField(blank=True, null=True, help_text="Enter the Cloudinary URL of your resume (PDF)")
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
