@@ -21,7 +21,7 @@
                     <div class="hero-buttons">
                         <a href="{% url 'projects' %}" class="btn btn-primary">View My Work</a>
                         {% if profile.resume %}
-                        <a href="{{ profile.resume.url }}" target="_blank" class="btn btn-secondary" download>
+                        <a href="{{ profile.resume.url }}" class="btn btn-secondary" download>
                             <i class="fas fa-download"></i> Download Resume
                         </a>
                         {% endif %}
@@ -63,7 +63,7 @@
                 <div class="hero-buttons-mobile">
                     <a href="{% url 'projects' %}" class="btn btn-primary">View My Work</a>
                     {% if profile.resume %}
-                    <a href="{{ profile.resume.url }}" target="_blank" class="btn btn-secondary" download>
+                    <a href="{{ profile.resume.url }}" class="btn btn-secondary" download>
                         <i class="fas fa-download"></i> Download Resume
                     </a>
                     {% endif %}

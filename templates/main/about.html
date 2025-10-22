@@ -61,7 +61,7 @@
                 <div class="about-buttons">
                     <a href="{% url 'contact' %}" class="btn btn-primary">Contact Me</a>
                     {% if profile.resume %}
-                    <a href="{{ profile.resume.url }}" target="_blank" class="btn btn-secondary">Download Resume</a>
+                    <a href="{{ profile.resume.url }}" class="btn btn-secondary" download>Download Resume</a>
                     {% endif %}
                 </div>
             </div>
