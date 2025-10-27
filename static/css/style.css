@@ -224,6 +224,8 @@ a:hover {
     align-items: center;
     background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
     padding-top: 70px;
+    position: relative;
+    z-index: 0;
 }
 
 .hero-container {
@@ -375,6 +377,10 @@ a:hover {
     margin-bottom: var(--spacing-3xl);
 }
 
+section {
+    position: relative;
+}
+
 .section-title {
     font-size: 2.5rem;
     margin-bottom: var(--spacing-md);
@@ -396,8 +402,8 @@ a:hover {
 .skills-section {
     padding: var(--spacing-3xl) 0;
     background-color: var(--bg-secondary);
+    position: relative;
 }
-
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -462,6 +468,7 @@ a:hover {
 /* Projects Section */
 .projects-section {
     padding: var(--spacing-3xl) 0;
+    scroll-margin-top: 80px;
 }
 
 .projects-grid {
@@ -624,6 +631,7 @@ a:hover {
 .experience-section {
     padding: var(--spacing-3xl) 0;
     background-color: var(--bg-secondary);
+    scroll-margin-top: 80px;
 }
 
 .timeline {
@@ -711,6 +719,7 @@ a:hover {
     padding: var(--spacing-3xl) 0;
     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     color: white;
+    scroll-margin-top: 80px;
     text-align: center;
 }
 
