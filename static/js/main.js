@@ -122,6 +122,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Speed up autoplay videos on projects page
+    const projectVideos = document.querySelectorAll('.project-video video');
+    projectVideos.forEach(video => {
+        // Set playback rate to 1.5x (50% faster)
+        // Change this value to adjust speed: 1.0 = normal, 1.5 = 1.5x, 2.0 = 2x, etc.
+        video.playbackRate = 2.0;
+        
+        // Also handle when video loads
+        video.addEventListener('loadedmetadata', function() {
+            this.playbackRate = 2.0;
+        });
+        
+        // Ensure speed is maintained on play
+        video.addEventListener('play', function() {
+            this.playbackRate = 2.0;
+        });
+    });
+
     // Contact form validation
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
@@ -192,15 +210,15 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(typeWriter, 500);
     }
 
-    // Parallax effect for hero section
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = scrolled * 0.5;
-            hero.style.transform = `translateY(${parallax}px)`;
-        });
-    }
+    // Parallax effect for hero section - DISABLED to prevent overlay issues
+    // const hero = document.querySelector('.hero');
+    // if (hero) {
+    //     window.addEventListener('scroll', () => {
+    //         const scrolled = window.pageYOffset;
+    //         const parallax = scrolled * 0.5;
+    //         hero.style.transform = `translateY(${parallax}px)`;
+    //     });
+    // }
 
     // Counter animation for statistics
     const counters = document.querySelectorAll('.counter');
