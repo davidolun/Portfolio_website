@@ -87,14 +87,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 # Database
-# Using PostgreSQL with Neon
+# Using PostgreSQL (Supabase or Neon)
 import dj_database_url
 
 # Parse database URL from environment
 DATABASE_URL = config('DATABASE_URL', default='')
 
 if DATABASE_URL:
-    # Use PostgreSQL (Neon)
+    # Use PostgreSQL (Supabase or Neon)
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, conn_health_checks=True)
     }
